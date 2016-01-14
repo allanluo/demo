@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Grok Constructor</title>
+    <!-- <link href="css/styles.css" rel="stylesheet" type="text/css"/> -->
+    <link href="css/combinedstyles.min.css" rel="stylesheet" type="text/css"/>
+    <!--[if lte IE 7]>
+    <link href="yaml/core/iehacks.min.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="ym-wrapper">
+    <header>
+        <div class="ym-wbox">
+            <h1>Grok Constructor</h1>
+        </div>
+    </header>
+    <nav id="nav">
+        <div class="ym-hlist">
+            <ul>
+                <li class="active"><strong>About</strong></li>
+                <li><a href="do/construction">Incremental Construction</a></li>
+                <li><a href="do/match">Matcher</a></li>
+                <li><a href="do/automatic">Automatic Construction</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="main">
+
+        <div class="ym-grid">
+            <div class="ym-g66 ym-gl">
+                <div class="ym-gbox">
+                    <h3>What is this about?</h3>
+
+                    <p><a href="https://github.com/stoerr/GrokConstructor">GrokConstructor</a>
+                        is a helper for testing and incremental construction of regular expressions
+                        for the <a href="http://logstash.net/docs/latest/filters/grok">grok</a> filter
+                        that parses logfile lines for <a href="http://logstash.net/">Logstash</a>.</p>
+
+                    <p>
+                        <a href="http://logstash.net/">Logstash</a>, part of the
+                        <a href="http://www.elasticsearch.org/overview/">ELK-Stack</a>,
+                        is a tool to collect log files from various sources,
+                        parse them into a JSON format and put them into one or more databases, index engines and so
+                        forth - often <a href="http://www.elasticsearch.org/">elasticsearch</a>.
+                        In the simplest case you can slurp log files from the filesystem, parse them using grok -
+                        a collection of named <a href="http://www.geocities.jp/kosako3/oniguruma/doc/RE.txt">regular
+                        expressions</a> - and put them into the integrated elastic search
+                        engine with a simple web frontend to search them. In my experience the hardest part is to get
+                        the regular expressions for parsing the log files right. The <a
+                            href="http://grokdebug.herokuapp.com/">Grok debugger</a> can help you test your regular
+                        expressions and provides Grok Discovery that sometimes can suggest regular expressions. This
+                        site, GrokConstructor, goes beyond that by providing an
+                        incremental construction process that helps you to construct a regular expression that matches
+                        all of a set of given log lines, and provides you a matcher where you can simultaneously try out
+                        your regular expression on several log lines. You can find
+                        <a href="https://github.com/stoerr/GrokConstructor">the source on GitHub</a>.
+                        If you are not comfortable with running this on a public platform you can also run it locally /
+                        deploy it as a WAR somewhere.
+                    </p>
+                </div>
+            </div>
+            <div class="ym-g33 ym-gr">
+                <div class="ym-gbox">
+                    <div class="box info">
+                        <h3>Impatient? Know it?</h3>
+
+                        <p><a href="http://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read"
+                              title="too long; didn't read">TLDR</a>? If you want to get started right now you can just
+                            use the main menu to go to the applications. There is a short explanation at the top, and
+                            you can call up a random example to try things out. If you want to know more beforehand,
+                            read on.
+                        </p>
+
+                        <p>Please contact <a href="http://www.stoerr.net/">me</a> for bugs, suggestions or praise, or
+                            <a href="https://github.com/stoerr/GrokConstructor/issues">create an issue on GitHub</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ym-gbox"><h2>The applications</h2></div>
+        <div class="ym-grid">
+            <div class="ym-g33 ym-gl">
+                <div class="ym-gbox">
+                    <h3>Incremental Construction</h3>
+
+                    <p> The <a href="do/construction">incremental construction of grok expressions</a> aides you in a
+                        step by step construction of a grok regular expression that simultaneously matches all of a
+                        given set of log lines. </p>
+
+                    <p> As input you provide those lines to match and select the libraries of grok patterns you want to
+                        choose from, and possibly give additional patterns.</p>
+
+                    <p>The construction starts with <code>\A</code> (beginning of string) as an expression.
+                        In each step you are prompted to select either a common prefix of the yet unmatched rests of the
+                        log lines, or select one of the patterns from the grok library that matches a start segment of
+                        all rests of the log lines, or input a pattern that matches the next segment. In each case the
+                        next segment is usually the next logical entity to be parsed in the lines.</p>
+                </div>
+            </div>
+            <div class="ym-g33 ym-gl">
+                <div class="ym-gbox">
+                    <h3>Matcher</h3>
+
+                    <p>The matcher allows you to <a href="do/match">try out grok expressions</a> on a couple of log
+                        lines simultaneously. It shows for all lines whether they are matched, and displays the named
+                        groups that result from matching the line.</p>
+
+                    <p>If the expression matches only a start segment of the line the unmatched rest is displayed. If a
+                        line is not matched at all we show the longest prefix of the expression that matches the
+                        line.</p>
+
+                    <p> As input you provide those lines to match and select the libraries of grok patterns you want to
+                        choose from, and possibly give additional patterns.</p>
+                </div>
+            </div>
+            <div class="ym-g33 ym-gr">
+                <div class="ym-gbox">
+                    <h3>Automatic Construction</h3>
+
+                    <p> My first attempt was to try a <a href="do/automatic">automatic construction</a> of grok regular
+                        expressions. Unfortunately, the algorithm generates too many results to be usable on real world
+                        examples, so this is included more for fun than for usefulness.</p>
+
+                    <p> The algorithm starts with <code>\A</code> as an expression. If all the not yet unmatched parts
+                        of the log lines start with identical strings that are not alphanumeric, the longest string of
+                        such characters is appended to the expression. If not, we find for all grok patterns from the
+                        library that match all unmatched rests of the log lines simultaneously. If several patterns
+                        match exactly the same strings in every log line, they are grouped together and presented as a
+                        drop down list. Since the number of possible regular expressions grows exponentially with the
+                        length of the lines, the result list is cut off at 200 results.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ym-grid">
+            <div class="ym-g33 ym-gl">
+                <div class="ym-gbox">
+                    <h3>Common features</h3>
+
+                    <p> All services are session-less. Thus, you can open arbitrarily many windows simultaneously
+                        without
+                        conflicts.</p>
+
+                    <p> Applying a <a href="http://logstash.net/docs/latest/filters/multiline">multiline filter</a>
+                        or <a href="http://logstash.net/docs/latest/codecs/multiline">multiline codec</a> to
+                        collect several lines that comprise one log message (e.g. the message and a stacktrace) is also
+                        supported.</p>
+                </div>
+            </div>
+            <div class="ym-g33 ym-gl">
+                <div class="ym-gbox">
+                    <h3>Contact</h3>
+
+                    <p>If you like it please tell <a href="http://www.stoerr.net/">me</a>, as this mightily encourages
+                        further improvements to this service. If you want to make me really happy please include
+                        suggestions, bugs, regular expressions you found useful, real life examples where the service
+                        gives particularily good or bad results. You can also
+                        <a href="https://github.com/stoerr/GrokConstructor/issues">create an issue on GitHub</a>.</p>
+                </div>
+            </div>
+            <div class="ym-g33 ym-gl">
+                <div class="ym-gbox">
+                    <h3>DISCLAIMER</h3>
+
+                    <p>This is done just for fun and you don't pay me for this, thus you get absolutely and utterly and
+                        completely no warranties of any kind to the extend permitted by law. Even if the program jumps
+                        out of your screen and chews at your leg.</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <footer>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                <p><a href="http://www.stoerr.net">Hans-Peter St&ouml;rr</a>
+                    <script type="text/javascript" language="javascript">
+<!--
+// Email obfuscator script 2.1 by Tim Williams, University of Arizona
+// Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+// This code is freeware provided these four comment lines remain intact
+// A wizard to generate this code is at http://www.jottings.com/obfuscator/
+{ coded = "wTyLbnnN@vnLb40.NS"
+  key = "TVMD2qg4GEz6JIjNKbkX1sCcByd9AW8FieUftQlSRLowu3Opx5anZYvH7rPm0h"
+  shift=coded.length
+  link=""
+  for (i=0; i<coded.length; i++) {
+    if (key.indexOf(coded.charAt(i))==-1) {
+      ltr = coded.charAt(i)
+      link += (ltr)
+    }
+    else {
+      ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+      link += (key.charAt(ltr))
+    }
+  }
+document.write("<a href='mailto:"+link+"'>"+link+"</a>")
+}
+//-->
+
+
+                    </script>
+                    &ndash; Layout based on <a
+                            href="http://www.yaml.de">YAML</a></p>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
